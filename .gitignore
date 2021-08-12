@@ -1,0 +1,4 @@
+# Remove enviroments vars
+src/service/.env
+src/database/.env
+src/database/data
