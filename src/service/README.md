@@ -1,20 +1,6 @@
-# FAUNO Database Image
+# FAUNO service Image
 This folder contain the files which allow to create a Docker image for
-the database of the Fauno tool. The image is based on Mongo 4.2 image.
-
-## Volume
-This section describe the volumes available in the images and their objectives
-
-### /backup
-This volume was created to share backups between host and guess
-
-### /data/db
-This volume is by defult in the original image of Mongo to store
-all data of the container
-
-### /data/conf
-This volume is by defult in the original image of Mongo to store
-a custom configuration for mongo
+the service of the Fauno tool. The image is based on Python:3.9-slim
 
 ## Files
 This section is created to describe the function of some files,
@@ -38,7 +24,7 @@ The installation process requires that **Docker** system is installed. Once you 
 the Docker you just need to execute the following command, which download the image form Docker hub:
 
 ``` bash
-docker pull stevensotelo/fauno_db:latest
+docker pull stevensotelo/fauno_service:latest
 ```
 
 ### Run
@@ -46,23 +32,5 @@ The following command describes how to execute an instance of the images like a 
 it connects a local folder (D:/my_folder/workdir) with the volume in the docker (/forecast/workdir).
 
 ``` bash
-docker run --name fauno_db -p 27017:27017 --env-file ./.env -v D:/my_folder/workdir/data:/data/db -v D:/my_folder/workdir/backup:/backup -d stevensotelo/fauno_db:latest
-```
-
-### Generate backup
-Yo can generate a backup of the database with the following commands
-
-``` bash
-docker exec -it fauno_db /bin/bash
-
-mongodump --username=user --password="secret" --out=/backup/fauno
-```
-
-### Restore backup
-Yo can restore a backup of the database with the following commands
-
-``` bash
-docker exec -it fauno_db /bin/bash
-
-mongorestore --username=mongoadmin --password="secret" /backup/fauno
+docker run -d --rm --env-file ./.env  -p 5000:80 --name fauno_service stevensotelo/fauno_service:latest
 ```
